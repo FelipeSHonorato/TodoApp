@@ -11,21 +11,34 @@ public class ConnectionFactory {
     public static final String USER = "root";
     public static final String PASS = "";
 
-    public static Connection getConnection(){
+    public static Connection getConnection() {
         try {
             Class.forName(DRIVER); //Carrega o driver selecionado para aplicação.
             return DriverManager.getConnection(URL, USER, PASS);
-        } catch (Exception e){
-            throw  new RuntimeException("Erro na conexão com o banco de dados", e);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro na conexão com o banco de dados", e);
         }
     }
 
-    public static void closeConnection(Connection connection){
+    public static void closeConnection(Connection connection) {
         try {
-            if (connection != null){
+            if (connection != null) {
                 connection.close();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao fechar a conexão com o banco de dados", e);
+        }
+    }
+
+    public static void closeConnection(Connection connection, PreparedStatement statement) {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+        } catch (Exception e) {
             throw new RuntimeException("Erro ao fechar a conexão com o banco de dados", e);
         }
     }

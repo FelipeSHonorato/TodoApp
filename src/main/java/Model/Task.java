@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Date;
 
-public class Tasks {
+public class Task {
 
     private int id;
     private int idProject;
@@ -14,7 +14,7 @@ public class Tasks {
     private Date createdAt;
     private Date updatedAt;
 
-    public Tasks(String name, String description, String notes, boolean isCompleted, Date deadline, Date createdAt, Date updatedAt) {
+    public Task(String name, String description, String notes, boolean isCompleted, Date deadline, Date createdAt, Date updatedAt) {
         this.name = name;
         this.description = description;
         this.notes = notes;
@@ -24,8 +24,15 @@ public class Tasks {
         this.updatedAt = updatedAt;
     }
 
+    public Task() {
+    }
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getIdProject() {
