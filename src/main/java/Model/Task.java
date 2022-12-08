@@ -39,6 +39,10 @@ public class Task {
         return idProject;
     }
 
+    public void setIdProject(int idProject) {
+        this.idProject = idProject;
+    }
+
     public String getName() {
         return name;
     }
