@@ -16,8 +16,7 @@ public class ProjectController {
         String sql = "INSERT INTO projects (name,"
                 + "description,"
                 + "createdAt,"
-                + "updatedAt)"
-                + "VALUES (?, ?, ?, ?)";
+                + "updatedAt) VALUES (?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement statement = null;
@@ -32,7 +31,7 @@ public class ProjectController {
             statement.execute();
 
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao salvar o projeto" + e.getMessage(), e);
+            throw new RuntimeException("Erro ao salvar o projeto " + e.getMessage(), e);
         } finally {
             ConnectionFactory.closeConnection(connection, statement);
         }
@@ -40,11 +39,11 @@ public class ProjectController {
 
     public void update(Project project) {
 
-        String sql = "UPDATE projects SET"
+        String sql = "UPDATE projects SET "
                 + "name = ?, "
                 + "description = ?, "
                 + "createdAt = ?, "
-                + "updatedAt = ?, "
+                + "updatedAt = ? "
                 + "WHERE id = ?";
 
         Connection connection = null;
@@ -85,6 +84,56 @@ public class ProjectController {
             throw new RuntimeException("Erro ao remover o projeto", e);
         } finally {
             ConnectionFactory.closeConnection(connection, statement);
+        }
+    }
+
+    public void removeByTest(String name) {
+
+        String sql = "DELETE FROM projects WHERE name = ?";
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, name);
+            statement.execute();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao remover os projetos", e);
+        } finally {
+            ConnectionFactory.closeConnection(connection, statement);
+        }
+    }
+
+    public int searchByName(String name) {
+        String sql = "SELECT id FROM projects WHERE name = ?";
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = ConnectionFactory.getConnection();
+
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, name);
+
+            resultSet = statement.executeQuery();
+
+            Project project = new Project();
+
+            while (resultSet.next()) {
+                project.setId(resultSet.getInt("id"));
+            }
+
+            return project.getId();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao procurar o id do projeto", e);
+        } finally {
+            ConnectionFactory.closeConnection(connection, statement, resultSet);
         }
     }
 
