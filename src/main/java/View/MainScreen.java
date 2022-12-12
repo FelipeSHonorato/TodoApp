@@ -45,6 +45,9 @@ public class MainScreen extends javax.swing.JFrame {
         jLabelEmptyTasksSubTitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(760, 670));
+        setPreferredSize(new java.awt.Dimension(760, 670));
+        setSize(new java.awt.Dimension(755, 664));
 
         jPanelToolBar.setBackground(new java.awt.Color(0, 153, 102));
 
