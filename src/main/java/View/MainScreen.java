@@ -1,15 +1,38 @@
 package View;
 
+import Controller.ProjectController;
+import Controller.TaskController;
+import Model.Project;
+import Model.Task;
+
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.List;
 
 public class MainScreen extends javax.swing.JFrame {
 
+    ProjectController projectController;
+    TaskController taskController;
+
+    //List onde serão armazenados em um default do Java os dados recebidos da base de dados
+    DefaultListModel projectsDefaultListModel;
+    DefaultListModel<Task> taskDefaultListModel;
+
+    //Métodos que serão executados no momento que a tela aparecer
     public MainScreen() {
         initComponents();
 
         //Chamando o método de customização da Table Task
         decorateTableTask();
+
+        //Criando os controllers ao criar a tela
+        initiDataController();
+
+        //Criando os models que serão utilizados pela tela
+        initiComponentsModel();
     }
 
     @SuppressWarnings("unchecked")
@@ -129,7 +152,7 @@ public class MainScreen extends javax.swing.JFrame {
             .addGroup(jPanelProjectsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelProjectsTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelProjectsAdd)
                 .addContainerGap())
         );
@@ -178,14 +201,10 @@ public class MainScreen extends javax.swing.JFrame {
         );
 
         jPanelProjectList.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelProjectList.setMinimumSize(new java.awt.Dimension(282, 348));
 
         jListProjects.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jListProjects.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jListProjects.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        jListProjects.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jListProjects.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jListProjects.setFixedCellHeight(40);
         jListProjects.setSelectionBackground(new java.awt.Color(0, 153, 102));
@@ -246,7 +265,7 @@ public class MainScreen extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneTasks, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+            .addComponent(jScrollPaneTasks, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,30 +306,71 @@ public class MainScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
+
+    // ################ Início de edição manual do código ######################
+    
     //Criando método para chamar (criar e instanciar um novo objeto) a janela de cadastro de novo projeto
     private void jLabelProjectsAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelProjectsAddMouseClicked
         ProjectDialogScreen projectDialogScreen = new ProjectDialogScreen(this, rootPaneCheckingEnabled);
         projectDialogScreen.setVisible(true);
+        
+        //Inserindo um método para executar o método loadProject quando essa for fechada
+        projectDialogScreen.addWindowListener(new WindowAdapter(){
+            public void windowClosed(WindowEvent e){
+                loadProjects();
+            }
+        });
     }//GEN-LAST:event_jLabelProjectsAddMouseClicked
 
     //Criando método para chamar (criar e instanciar um novo objeto) a janela de cadastro de nova tarefa
     private void jLabelTasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTasksAddMouseClicked
-       TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
-       //taskDialogScreen.setProject(null);
-       taskDialogScreen.setVisible(true);
+        TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
+        //taskDialogScreen.setProject(null);
+        taskDialogScreen.setVisible(true);
     }//GEN-LAST:event_jLabelTasksAddMouseClicked
 
     //Criando um método para customizar o componente Table Tasks
-    public void decorateTableTask(){
+    public void decorateTableTask() {
 
         //Customizando o header da tabela de tarefas
         jTableTasks.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
-        jTableTasks.getTableHeader().setBackground(new Color(0,153,102));
+        jTableTasks.getTableHeader().setBackground(new Color(0, 153, 102));
         jTableTasks.getTableHeader().setForeground(new Color(255, 255, 255));
 
         //Criando sort nas colunas da tabela
         jTableTasks.setAutoCreateRowSorter(true);
     }
+
+    public void initiDataController() {
+        projectController = new ProjectController();
+        taskController = new TaskController();
+    }
+
+    //Instanciando uma default lista de projetos
+    public void initiComponentsModel() {
+        projectsDefaultListModel = new DefaultListModel();
+        loadProjects();
+    }
+
+    //Criando uma lista com os dados recebidos do banco de dados
+    public void loadProjects() {
+        //Criando uma lista de projetos com o método getAll do controller
+        List<Project> projectList = projectController.getAll();
+
+        //Setando a lista default para que esteja limpa para armazenar os dados que serão recebidos abaixo
+        projectsDefaultListModel.clear();
+
+        //Recebendo os dados do banco de dados e armazenando na default
+        for (int i = 0; i < projectList.size(); i++) {
+            Project project = projectList.get(i);
+            projectsDefaultListModel.addElement(project);
+        }
+        jListProjects.setModel(projectsDefaultListModel);
+    }
+
+    // ################ Final da edição manual do código ######################
+
 
 
 
