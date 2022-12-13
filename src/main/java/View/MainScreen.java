@@ -74,7 +74,7 @@ public class MainScreen extends javax.swing.JFrame {
         jLabelEmptyTasksSubTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabelEmptyTasksSubTitle.setForeground(new java.awt.Color(204, 204, 204));
         jLabelEmptyTasksSubTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelEmptyTasksSubTitle.setText("Clique no botão \" + \" para adicionar uma nova tarefa");
+        jLabelEmptyTasksSubTitle.setText("Clique no bot�o \" + \" para adicionar uma nova tarefa");
 
         javax.swing.GroupLayout jPanelEmptyListLayout = new javax.swing.GroupLayout(jPanelEmptyList);
         jPanelEmptyList.setLayout(jPanelEmptyListLayout);
@@ -110,7 +110,7 @@ public class MainScreen extends javax.swing.JFrame {
 
         jLabelToolBarSubtitle.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         jLabelToolBarSubtitle.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelToolBarSubtitle.setText("Anote tudo, não esqueça nada");
+        jLabelToolBarSubtitle.setText("Anote tudo, n�o esque�a nada");
 
         javax.swing.GroupLayout jPanelToolBarLayout = new javax.swing.GroupLayout(jPanelToolBar);
         jPanelToolBar.setLayout(jPanelToolBarLayout);
@@ -239,7 +239,7 @@ public class MainScreen extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Nome", "Descrição", "Prazo", "Tarefa Concluída"
+                "Nome", "Descri��o", "Prazo", "Tarefa Conclu�da"
             }
         ) {
             Class[] types = new Class [] {
@@ -261,6 +261,11 @@ public class MainScreen extends javax.swing.JFrame {
         jTableTasks.setSelectionBackground(new java.awt.Color(204, 255, 204));
         jTableTasks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableTasks.setShowGrid(false);
+        jTableTasks.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableTasksMouseClicked(evt);
+            }
+        });
         jScrollPaneTasks.setViewportView(jTableTasks);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -336,6 +341,19 @@ public class MainScreen extends javax.swing.JFrame {
                 loadTasks(24);
             }
         });
+    }
+
+    //Pegando o ponto onde ocorreu o click na tela, dizendo onde é a linha e coluna
+    private void jTableTasksMouseClicked(java.awt.event.MouseEvent evt) {
+        int rowIndex = jTableTasks.rowAtPoint(evt.getPoint());
+        int columnIndex = jTableTasks.columnAtPoint(evt.getPoint());
+
+        switch (columnIndex){
+            case 3:
+                Task task = taskTableModel.getTasks().get(rowIndex);
+                taskController.update(task);
+                break;
+        }
     }
 
     //Criando um método para customizar o componente Table Tasks

@@ -25,18 +25,33 @@ public class TaskTableModel extends AbstractTableModel {
     }
 
     @Override
-    public String getColumnName(int column){
+    public String getColumnName(int column) {
         return columns[column];
     }
 
     //Método para liberar campo para edição, no caso a coluna 3
-    public boolean isCellEditable(int rowIndex, int columnIndex){
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
         return columnIndex == 3;
+    }
+
+    //Método que informa qual é o tipo de dados é usado na coluna específica
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        if (tasks.isEmpty()) {
+            return Object.class;
+        }
+        return this.getValueAt(0, columnIndex).getClass();
+    }
+
+    //Habilita o check e uncheck no campo Tarefa Concluída
+    @Override
+    public void setValueAt(Object value, int rowIndex, int columnIndex) {
+        tasks.get(rowIndex).setCompleted((boolean) value);
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        switch (columnIndex){
+        switch (columnIndex) {
             case 0:
                 return tasks.get(rowIndex).getName();
             case 1:
