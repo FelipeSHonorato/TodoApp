@@ -4,6 +4,7 @@ import Controller.ProjectController;
 import Controller.TaskController;
 import Model.Project;
 import Model.Task;
+import Util.TaskTableModel;
 
 import javax.swing.*;
 import java.awt.Color;
@@ -17,21 +18,21 @@ public class MainScreen extends javax.swing.JFrame {
     ProjectController projectController;
     TaskController taskController;
 
-    //List onde ser„o armazenados em um default do Java os dados recebidos da base de dados
+    //List onde ser√£o armazenados em um default do Java os dados recebidos da base de dados
     DefaultListModel projectsDefaultListModel;
-    DefaultListModel<Task> taskDefaultListModel;
+    TaskTableModel taskTableModel;
 
-    //MÈtodos que ser„o executados no momento que a tela aparecer
+    //M√©todos que ser√£o executados no momento que a tela aparecer
     public MainScreen() {
         initComponents();
 
-        //Chamando o mÈtodo de customizaÁ„o da Table Task
+        //Chamando o m√©todo de customiza√ß√£o da Table Task
         decorateTableTask();
 
         //Criando os controllers ao criar a tela
         initiDataController();
 
-        //Criando os models que ser„o utilizados pela tela
+        //Criando os models que ser√£o utilizados pela tela
         initiComponentsModel();
     }
 
@@ -73,7 +74,7 @@ public class MainScreen extends javax.swing.JFrame {
         jLabelEmptyTasksSubTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabelEmptyTasksSubTitle.setForeground(new java.awt.Color(204, 204, 204));
         jLabelEmptyTasksSubTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelEmptyTasksSubTitle.setText("Clique no bot„o \" + \" para adicionar uma nova tarefa");
+        jLabelEmptyTasksSubTitle.setText("Clique no bot√£o \" + \" para adicionar uma nova tarefa");
 
         javax.swing.GroupLayout jPanelEmptyListLayout = new javax.swing.GroupLayout(jPanelEmptyList);
         jPanelEmptyList.setLayout(jPanelEmptyListLayout);
@@ -109,7 +110,7 @@ public class MainScreen extends javax.swing.JFrame {
 
         jLabelToolBarSubtitle.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         jLabelToolBarSubtitle.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelToolBarSubtitle.setText("Anote tudo, n„o esqueÁa nada");
+        jLabelToolBarSubtitle.setText("Anote tudo, n√£o esque√ßa nada");
 
         javax.swing.GroupLayout jPanelToolBarLayout = new javax.swing.GroupLayout(jPanelToolBar);
         jPanelToolBar.setLayout(jPanelToolBarLayout);
@@ -216,7 +217,7 @@ public class MainScreen extends javax.swing.JFrame {
             jPanelProjectListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelProjectListLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPaneProjects)
+                .addComponent(jScrollPaneProjects, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanelProjectListLayout.setVerticalGroup(
@@ -238,7 +239,7 @@ public class MainScreen extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Nome", "DescriÁ„o", "Prazo", "Tarefa ConcluÌda"
+                "Nome", "Descri√ß√£o", "Prazo", "Tarefa Conclu√≠da"
             }
         ) {
             Class[] types = new Class [] {
@@ -258,6 +259,7 @@ public class MainScreen extends javax.swing.JFrame {
         });
         jTableTasks.setRowHeight(40);
         jTableTasks.setSelectionBackground(new java.awt.Color(204, 255, 204));
+        jTableTasks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableTasks.setShowGrid(false);
         jScrollPaneTasks.setViewportView(jTableTasks);
 
@@ -308,29 +310,35 @@ public class MainScreen extends javax.swing.JFrame {
 
 
 
-    // ################ InÌcio de ediÁ„o manual do cÛdigo ######################
+    // ################ In√≠cio de edi√ß√£o manual do c√≥digo ######################
     
-    //Criando mÈtodo para chamar (criar e instanciar um novo objeto) a janela de cadastro de novo projeto
-    private void jLabelProjectsAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelProjectsAddMouseClicked
+    //Criando m√©todo para chamar (criar e instanciar um novo objeto) a janela de cadastro de novo projeto
+    private void jLabelProjectsAddMouseClicked(java.awt.event.MouseEvent evt) {
         ProjectDialogScreen projectDialogScreen = new ProjectDialogScreen(this, rootPaneCheckingEnabled);
         projectDialogScreen.setVisible(true);
         
-        //Inserindo um mÈtodo para executar o mÈtodo loadProject quando essa for fechada
+        //Inserindo um m√©todo para executar o m√©todo loadProject quando essa for fechada
         projectDialogScreen.addWindowListener(new WindowAdapter(){
             public void windowClosed(WindowEvent e){
                 loadProjects();
             }
         });
-    }//GEN-LAST:event_jLabelProjectsAddMouseClicked
+    }
 
-    //Criando mÈtodo para chamar (criar e instanciar um novo objeto) a janela de cadastro de nova tarefa
-    private void jLabelTasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTasksAddMouseClicked
+    //Criando m√©todo para chamar (criar e instanciar um novo objeto) a janela de cadastro de nova tarefa
+    private void jLabelTasksAddMouseClicked(java.awt.event.MouseEvent evt) {
         TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
-        //taskDialogScreen.setProject(null);
         taskDialogScreen.setVisible(true);
-    }//GEN-LAST:event_jLabelTasksAddMouseClicked
 
-    //Criando um mÈtodo para customizar o componente Table Tasks
+        //Inserindo um m√©todo para executar o m√©todo loadTasks quando essa for fechada
+        taskDialogScreen.addWindowListener(new WindowAdapter(){
+            public void windowClosed(WindowEvent e){
+                loadTasks(24);
+            }
+        });
+    }
+
+    //Criando um m√©todo para customizar o componente Table Tasks
     public void decorateTableTask() {
 
         //Customizando o header da tabela de tarefas
@@ -351,14 +359,18 @@ public class MainScreen extends javax.swing.JFrame {
     public void initiComponentsModel() {
         projectsDefaultListModel = new DefaultListModel();
         loadProjects();
+
+        taskTableModel = new TaskTableModel();
+        jTableTasks.setModel(taskTableModel);
+        loadTasks(24);
     }
 
     //Criando uma lista com os dados recebidos do banco de dados
     public void loadProjects() {
-        //Criando uma lista de projetos com o mÈtodo getAll do controller
+        //Criando uma lista de projetos com o m√©todo getAll do controller
         List<Project> projectList = projectController.getAll();
 
-        //Setando a lista default para que esteja limpa para armazenar os dados que ser„o recebidos abaixo
+        //Setando a lista default para que esteja limpa para armazenar os dados que ser√£o recebidos abaixo
         projectsDefaultListModel.clear();
 
         //Recebendo os dados do banco de dados e armazenando na default
@@ -369,7 +381,13 @@ public class MainScreen extends javax.swing.JFrame {
         jListProjects.setModel(projectsDefaultListModel);
     }
 
-    // ################ Final da ediÁ„o manual do cÛdigo ######################
+    //Criando uma lista com os dados recebidos do banco de dados
+    public void loadTasks(int idProject){
+        List<Task> tasksList = taskController.getAll(idProject);
+        taskTableModel.setTasks(tasksList);
+    }
+
+    // ################ Final da edi√ß√£o manual do c√≥digo ######################
 
 
 

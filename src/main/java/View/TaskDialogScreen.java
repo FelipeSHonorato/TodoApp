@@ -12,7 +12,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     //Criando um controller para ser utilizado na tela de Task Screen.
     TaskController taskcontroller;
 
-    //Criando um projeto para guardar o número do projeto que a task irá receber
+    //Criando um projeto para guardar o nÃºmero do projeto que a task irÃ¡ receber
     Project project;
 
     public TaskDialogScreen(java.awt.Frame parent, boolean modal) {
@@ -87,7 +87,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         jTextFieldName.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
         jLabelDescription.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabelDescription.setText("Descrição");
+        jLabelDescription.setText("DescriÃ§Ã£o");
 
         jTextAreaDescription.setColumns(20);
         jTextAreaDescription.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
@@ -166,7 +166,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //Criando um método para mouse click sobre o ícone de save de uma nova tarefa
+    //Criando um mÃ©todo para mouse click sobre o Ã­cone de save de uma nova tarefa
     private void jLabelToolBarSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelToolBarSaveMouseClicked
        try{
            Task task = new Task();
@@ -195,7 +195,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
        this.dispose();
     }//GEN-LAST:event_jLabelToolBarSaveMouseClicked
 
-    //Criando um set para guardar o número do id do projeto relacionado
+    //Criando um set para guardar o nÃºmero do id do projeto relacionado
     public void setProject (Project project){
         this.project = project;
     }

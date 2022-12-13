@@ -78,7 +78,7 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
         jTextFieldName.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
         jLabelDescription.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabelDescription.setText("Descrição");
+        jLabelDescription.setText("DescriÃ§Ã£o");
 
         jTextAreaDescription.setColumns(20);
         jTextAreaDescription.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
@@ -129,7 +129,7 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //Criando um método para mouse click sobre o ícone de save de um novo projeto
+    //Criando um mÃ©todo para mouse click sobre o Ã­cone de save de um novo projeto
     private void jLabelToolBarSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelToolBarSaveMouseClicked
         
         try{
