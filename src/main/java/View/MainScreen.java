@@ -4,6 +4,7 @@ import Controller.ProjectController;
 import Controller.TaskController;
 import Model.Project;
 import Model.Task;
+import Util.ButtonColumnCellRenderer;
 import Util.DeadlineColumnCellRenderer;
 import Util.TaskTableModel;
 
@@ -391,6 +392,10 @@ public class MainScreen extends javax.swing.JFrame {
 
         //Inserindo a customização da célula deadline
         jTableTasks.getColumnModel().getColumn(2).setCellRenderer(new DeadlineColumnCellRenderer());
+
+        //Inserindo a customização das células de editar e delete
+        jTableTasks.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnCellRenderer("edit/pencil (4)"));
+        jTableTasks.getColumnModel().getColumn(5).setCellRenderer(new ButtonColumnCellRenderer("delete/close (4)"));
     }
 
     public void initiDataController() {

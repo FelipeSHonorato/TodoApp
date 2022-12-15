@@ -7,6 +7,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.Date;
 
+//Customizando a célula de deadline
+
 public class DeadlineColumnCellRenderer extends DefaultTableCellRenderer {
 
     @Override
