@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.util.List;
 
 public class MainScreen extends javax.swing.JFrame {
@@ -234,6 +235,7 @@ public class MainScreen extends javax.swing.JFrame {
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setLayout(new java.awt.BorderLayout());
 
         jTableTasks.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         jTableTasks.setModel(new javax.swing.table.DefaultTableModel(
@@ -273,16 +275,7 @@ public class MainScreen extends javax.swing.JFrame {
         });
         jScrollPaneTasks.setViewportView(jTableTasks);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneTasks, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneTasks, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-        );
+        jPanel5.add(jScrollPaneTasks, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -367,10 +360,21 @@ public class MainScreen extends javax.swing.JFrame {
         int rowIndex = jTableTasks.rowAtPoint(evt.getPoint());
         int columnIndex = jTableTasks.columnAtPoint(evt.getPoint());
 
+        Task task = taskTableModel.getTasks().get(rowIndex);
+
         switch (columnIndex){
             case 3:
-                Task task = taskTableModel.getTasks().get(rowIndex);
-                taskController.update(task);
+                taskController.update(task); //update no banco de dados
+                break;
+            case 5:
+                taskController.removeById(task.getId()); //remove do banco de dados
+                taskTableModel.getTasks().remove(task); //remove a task da tela
+
+                //Após remoção, recarrega a lista de tarefas
+                int projectIndex = jListProjects.getSelectedIndex();
+                Project project = (Project) projectsDefaultListModel.get(projectIndex);
+                loadTasks(project.getId());
+
                 break;
         }
     }
