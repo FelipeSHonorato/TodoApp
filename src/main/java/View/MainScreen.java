@@ -209,6 +209,11 @@ public class MainScreen extends javax.swing.JFrame {
         jListProjects.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jListProjects.setFixedCellHeight(40);
         jListProjects.setSelectionBackground(new java.awt.Color(0, 153, 102));
+        jListProjects.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListProjectsMouseClicked(evt);
+            }
+        });
         jScrollPaneProjects.setViewportView(jListProjects);
 
         javax.swing.GroupLayout jPanelProjectListLayout = new javax.swing.GroupLayout(jPanelProjectList);
@@ -315,8 +320,16 @@ public class MainScreen extends javax.swing.JFrame {
 
 
 
+
+
     // ################ Início de edição manual do código ######################
-    
+
+    private void jListProjectsMouseClicked(java.awt.event.MouseEvent evt) {
+        int projectIndex = jListProjects.getSelectedIndex();
+        Project project = (Project) projectsDefaultListModel.get(projectIndex);
+        loadTasks(project.getId());
+    }
+
     //Criando método para chamar (criar e instanciar um novo objeto) a janela de cadastro de novo projeto
     private void jLabelProjectsAddMouseClicked(java.awt.event.MouseEvent evt) {
         ProjectDialogScreen projectDialogScreen = new ProjectDialogScreen(this, rootPaneCheckingEnabled);
@@ -333,12 +346,18 @@ public class MainScreen extends javax.swing.JFrame {
     //Criando método para chamar (criar e instanciar um novo objeto) a janela de cadastro de nova tarefa
     private void jLabelTasksAddMouseClicked(java.awt.event.MouseEvent evt) {
         TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
+
+        //Ao clicar sobre adicionar sobre nova tarefa ele pega o indice do projeto selecionado
+        int projectIndex = jListProjects.getSelectedIndex();
+        Project project = (Project) projectsDefaultListModel.get(projectIndex);
+        taskDialogScreen.setProject(project);
+
         taskDialogScreen.setVisible(true);
 
         //Inserindo um método para executar o método loadTasks quando essa for fechada
         taskDialogScreen.addWindowListener(new WindowAdapter(){
             public void windowClosed(WindowEvent e){
-                loadTasks(24);
+                loadTasks(project.getId());
             }
         });
     }
@@ -375,12 +394,21 @@ public class MainScreen extends javax.swing.JFrame {
 
     //Instanciando uma default lista de projetos
     public void initiComponentsModel() {
+        //Carregando os projetos do banco
         projectsDefaultListModel = new DefaultListModel();
         loadProjects();
 
+        //Carregando as tarefas do banco
         taskTableModel = new TaskTableModel();
         jTableTasks.setModel(taskTableModel);
         loadTasks(24);
+
+        //Condição para selecionar o primeiro projeto ao abrir o programa
+        if(!projectsDefaultListModel.isEmpty()){
+            jListProjects.setSelectedIndex(0);
+            Project project = (Project) projectsDefaultListModel.get(0);
+            loadTasks(project.getId());
+        }
     }
 
     //Criando uma lista com os dados recebidos do banco de dados
@@ -399,10 +427,38 @@ public class MainScreen extends javax.swing.JFrame {
         jListProjects.setModel(projectsDefaultListModel);
     }
 
-    //Criando uma lista com os dados recebidos do banco de dados
+    //Criando uma lista com os dados recebidos do banco de dados e acionando o método showJTableTasks
     public void loadTasks(int idProject){
         List<Task> tasksList = taskController.getAll(idProject);
         taskTableModel.setTasks(tasksList);
+
+        showJTableTasks(!tasksList.isEmpty());
+    }
+
+    //Método para mostrar telas diferentes na tabela de tarefas, caso tenha tarefas carrega uma, se não carrega outra
+    private void showJTableTasks(boolean hasTasks) {
+        if (hasTasks) {
+            //Existem tarefas? Sim, remove a tela de Tarefas Vazias
+            if (jPanelEmptyList.isVisible()) {
+                jPanelEmptyList.setVisible(false);
+                jPanel5.remove(jPanelEmptyList);
+            }
+            //Adiciona a tela da tabela com as tarefas do projeto
+        jPanel5.add(jScrollPaneTasks);
+        jScrollPaneTasks.setVisible(true);
+        jScrollPaneTasks.setSize(jPanel5.getWidth(), jPanel5.getHeight());
+
+        } else {
+            //Existem tarefas? Não, remove a tela de tabela de tarefas
+            if (jScrollPaneTasks.isVisible()){
+                jScrollPaneTasks.setVisible(false);
+                jPanel5.remove(jScrollPaneTasks);
+            }
+            //Adiciona a tela de Tarefas Vazias
+            jPanel5.add(jPanelEmptyList);
+            jPanelEmptyList.setVisible(true);
+            jPanelEmptyList.setSize(jPanel5.getWidth(), jPanel5.getHeight());
+        }
     }
 
     // ################ Final da edição manual do código ######################
