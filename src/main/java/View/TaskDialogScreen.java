@@ -1,5 +1,5 @@
 package View;
-
+ 
 import Controller.TaskController;
 import Model.Project;
 import Model.Task;
@@ -10,15 +10,10 @@ import javax.swing.JOptionPane;
 
 public class TaskDialogScreen extends javax.swing.JDialog {
 
-    //Criando um controller para ser utilizado na tela de Task Screen.
-    TaskController taskcontroller;
-
-    //Criando um projeto para guardar o número do projeto que a task irá receber
-    Project project;
-
     public TaskDialogScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        hideErrorFields();
 
         //Instanciando um novo controller
         taskcontroller = new TaskController();
@@ -42,6 +37,8 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         jScrollPaneNote = new javax.swing.JScrollPane();
         jTextAreaNote = new javax.swing.JTextArea();
         jFormattedTextFieldDeadline = new javax.swing.JFormattedTextField();
+        jLabelNameError = new javax.swing.JLabel();
+        jLabelDeadlineError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(415, 600));
@@ -64,22 +61,22 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         javax.swing.GroupLayout jPanelToolBarLayout = new javax.swing.GroupLayout(jPanelToolBar);
         jPanelToolBar.setLayout(jPanelToolBarLayout);
         jPanelToolBarLayout.setHorizontalGroup(
-                jPanelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanelToolBarLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabelToolBarTitle)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 285, Short.MAX_VALUE)
-                                .addComponent(jLabelToolBarSave)
-                                .addContainerGap())
+            jPanelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelToolBarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelToolBarTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 285, Short.MAX_VALUE)
+                .addComponent(jLabelToolBarSave)
+                .addContainerGap())
         );
         jPanelToolBarLayout.setVerticalGroup(
-                jPanelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanelToolBarLayout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addGroup(jPanelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabelToolBarTitle)
-                                        .addComponent(jLabelToolBarSave))
-                                .addContainerGap(27, Short.MAX_VALUE))
+            jPanelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelToolBarLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jPanelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelToolBarTitle)
+                    .addComponent(jLabelToolBarSave))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         jLabelName.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
@@ -108,70 +105,90 @@ public class TaskDialogScreen extends javax.swing.JDialog {
 
         jFormattedTextFieldDeadline.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
 
+        jLabelNameError.setForeground(new java.awt.Color(255, 0, 0));
+        jLabelNameError.setText("Campo de nome é obrigatório");
+
+        jLabelDeadlineError.setForeground(new java.awt.Color(255, 0, 0));
+        jLabelDeadlineError.setText("Campo de prazo é obrigatório");
+
         javax.swing.GroupLayout jPanelTaskLayout = new javax.swing.GroupLayout(jPanelTask);
         jPanelTask.setLayout(jPanelTaskLayout);
         jPanelTaskLayout.setHorizontalGroup(
-                jPanelTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabelName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextFieldName)
-                        .addComponent(jScrollPaneDescription)
-                        .addComponent(jScrollPaneNote)
-                        .addGroup(jPanelTaskLayout.createSequentialGroup()
-                                .addGroup(jPanelTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabelDescription)
-                                        .addComponent(jLabelDeadline)
-                                        .addComponent(jLabelNote))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                        .addComponent(jFormattedTextFieldDeadline)
+            jPanelTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabelName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTextFieldName)
+            .addComponent(jScrollPaneNote, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(jFormattedTextFieldDeadline)
+            .addComponent(jScrollPaneDescription)
+            .addGroup(jPanelTaskLayout.createSequentialGroup()
+                .addGroup(jPanelTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelDeadline)
+                    .addComponent(jLabelNote)
+                    .addComponent(jLabelNameError)
+                    .addComponent(jLabelDeadlineError)
+                    .addComponent(jLabelDescription))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanelTaskLayout.setVerticalGroup(
-                jPanelTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanelTaskLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabelName)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabelDescription)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabelDeadline)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jFormattedTextFieldDeadline, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addComponent(jLabelNote)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPaneNote, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
+            jPanelTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTaskLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelNameError)
+                .addGap(12, 12, 12)
+                .addComponent(jLabelDescription)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelDeadline)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jFormattedTextFieldDeadline, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelDeadlineError)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelNote)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneNote, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanelToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanelTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap())
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanelToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanelTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap())
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanelToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // ################ Início de edição manual do código ######################
+
+    //Criando um controller para ser utilizado na tela de Task Screen.
+    TaskController taskcontroller;
+
+    //Criando um projeto para guardar o número do projeto que a task irá receber
+    Project project;
+
     //Criando um método para mouse click sobre o ícone de save de uma nova tarefa
     private void jLabelToolBarSaveMouseClicked(java.awt.event.MouseEvent evt) {
         try {
 
-            if (!jTextFieldName.getText().isEmpty() && !jFormattedTextFieldDeadline.getText().isEmpty()) {
+            if (isFieldIsValid()) {
                 Task task = new Task();
 
                 task.setIdProject(project.getId());
@@ -194,20 +211,39 @@ public class TaskDialogScreen extends javax.swing.JDialog {
 
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Campos nome e prazo precisam ser preenchidos");
+                hideErrorFields();
+
+                if (jTextFieldName.getText().isEmpty()) {
+                    jLabelNameError.setVisible(true);
+                }
+                if (jFormattedTextFieldDeadline.getText().isEmpty()) {
+                    jLabelDeadlineError.setVisible(true);
+                }
             }
 
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
-
     }
 
     //Criando um set para guardar o número do id do projeto relacionado
     public void setProject(Project project) {
         this.project = project;
     }
+
+    //Criando alertas de erro em JLabel nos campos obrigatórios
+    public void hideErrorFields() {
+        jLabelDeadlineError.setVisible((false));
+        jLabelNameError.setVisible(false);
+    }
+
+    public boolean isFieldIsValid() {
+
+        return (!jTextFieldName.getText().isEmpty()) && (!jFormattedTextFieldDeadline.getText().isEmpty());
+    }
+
+    // ################ Final de edição manual do código ######################
 
 
     /**
@@ -255,8 +291,10 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField jFormattedTextFieldDeadline;
     private javax.swing.JLabel jLabelDeadline;
+    private javax.swing.JLabel jLabelDeadlineError;
     private javax.swing.JLabel jLabelDescription;
     private javax.swing.JLabel jLabelName;
+    private javax.swing.JLabel jLabelNameError;
     private javax.swing.JLabel jLabelNote;
     private javax.swing.JLabel jLabelToolBarSave;
     private javax.swing.JLabel jLabelToolBarTitle;

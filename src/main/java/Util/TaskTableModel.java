@@ -1,12 +1,12 @@
 package Util;
 
 import Model.Task;
-
+ 
 import javax.swing.table.AbstractTableModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
+ 
 //Criada um classe para editar via código a tabela de tasks da Main Screen
 
 public class TaskTableModel extends AbstractTableModel {

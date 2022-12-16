@@ -115,17 +115,19 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jLabelName" max="32767" attributes="0"/>
               <Component id="jTextFieldName" alignment="0" max="32767" attributes="0"/>
+              <Component id="jScrollPaneNote" alignment="0" pref="400" max="32767" attributes="0"/>
+              <Component id="jFormattedTextFieldDeadline" alignment="0" max="32767" attributes="0"/>
               <Component id="jScrollPaneDescription" max="32767" attributes="0"/>
-              <Component id="jScrollPaneNote" alignment="0" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabelDescription" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelDeadline" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelNote" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelNameError" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelDeadlineError" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelDescription" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
-              <Component id="jFormattedTextFieldDeadline" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -135,18 +137,22 @@
                   <Component id="jLabelName" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jTextFieldName" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabelNameError" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="jLabelDescription" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPaneDescription" min="-2" pref="136" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabelDeadline" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jFormattedTextFieldDeadline" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabelDeadlineError" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabelNote" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPaneNote" pref="113" max="32767" attributes="0"/>
+                  <Component id="jScrollPaneNote" pref="100" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -232,6 +238,22 @@
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
               <Format subtype="1" type="1"/>
             </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabelNameError">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Campo de nome &#xe9; obrigat&#xf3;rio"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabelDeadlineError">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Campo de prazo &#xe9; obrigat&#xf3;rio"/>
           </Properties>
         </Component>
       </SubComponents>
